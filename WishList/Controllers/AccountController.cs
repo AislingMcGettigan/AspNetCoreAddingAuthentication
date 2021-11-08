@@ -42,16 +42,16 @@ namespace WishList.Controllers
                 PasswordHash = viewModel.Password
             };
 
-            var createUser = _userManager.CreateAsync(appUser);
-            if (!createUser.Result.Succeeded)
-            {
-                foreach (var error in createUser.Result.Errors)
+            var createUser = _userManager.CreateAsync(appUser).Result;
+                if (!createUser.Succeeded)
                 {
-                    ModelState.AddModelError("Password", error.Description);
+                    foreach (var error in createUser.Errors)
+                    {
+                        ModelState.AddModelError("Password", error.Description);
+                    }
+                    return View("Register", viewModel);
                 }
-                return View("Register", viewModel);
-            }
-           
+
             return RedirectToAction("Home/Index");
         }
     }
