@@ -22,7 +22,7 @@ namespace WishList.Controllers
         [AllowAnonymous]
         public IActionResult Register()
         {
-            return View();
+            return View("Register");
         }
 
         [HttpPost]
@@ -52,7 +52,7 @@ namespace WishList.Controllers
                 return View("Register", viewModel);
             }
 
-            return RedirectToAction("Home/Index");
+            return RedirectToAction("Index","Home");
         }
 
         [HttpGet]
@@ -72,9 +72,9 @@ namespace WishList.Controllers
                 return View("Login", viewModel);
             }
 
-            var signIn = _signInManager.PasswordSignInAsync(viewModel.Email, viewModel.Password, false,false).Result;
+            var signIn = _signInManager.PasswordSignInAsync(viewModel.Email, viewModel.Password, false,false);
 
-            if (!signIn.Succeeded)
+            if (!signIn.Result.Succeeded)
             {
                 ModelState.AddModelError(string.Empty, "Invalid login attempt.");
             }
